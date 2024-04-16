@@ -11,7 +11,7 @@ function getAllProducts(callback) {
     })
 }
 function getCategorizedProducts(category,callback){
-    database.query("SELECT * produit INNER JOIN categorie USING(id_categorie) WHERE categorie.Nom_categorie=?",[category],(error,results)=>{
+    database.query("select  * from produit inner join categorie using(id_categorie) where Nom_categorie=?",[category],(error,results)=>{
         if(error) throw(error)
         callback(results)
     })
