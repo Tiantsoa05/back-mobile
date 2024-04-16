@@ -1,5 +1,5 @@
 const express = require('express')
-const {getAllProducts, reduceProduct, addProdCommand} =require("../../controllers/ProductsController");
+const {getAllProducts, reduceProduct, addProdCommand, getCategorizedProducts} =require("../../controllers/ProductsController");
 
 const prodRouter = express.Router();
 
@@ -9,6 +9,12 @@ prodRouter.get('/all', (req, res) => {
     });
 });
 
+prodRouter.get('/:categorie',(req,res)=>{
+    const {categorie} = req.params
+    getCategorizedProducts(categorie,(data)=>{
+        res.status(200).send(JSON.stringify(data))
+    })
+})
 
 prodRouter.post('/commande',(req,res)=>{
     const {id_produit,qte_produit} = req.body

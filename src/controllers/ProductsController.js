@@ -10,6 +10,18 @@ function getAllProducts(callback) {
         }
     })
 }
+function getCategorizedProducts(category,callback){
+    database.query("SELECT * produit INNER JOIN categorie USING(id_categorie) WHERE categorie.Nom_categorie=?",[category],(error,results)=>{
+        if(error) throw(error)
+        callback(results)
+    })
+}
+function getAllCategories(callback){
+    database.query("SELECT * FROM categorie",(error,results)=>{
+        if(error) throw error
+        callback(results)
+    })
+}
 
 function reduceProduct(payload, callback) {
     const { qte_minus, id } = payload
@@ -30,5 +42,7 @@ function addProdCommand(prod, callback) {
 module.exports = {
     getAllProducts,
     reduceProduct,
-    addProdCommand
+    addProdCommand,
+    getAllCategories,
+    getCategorizedProducts
 }
