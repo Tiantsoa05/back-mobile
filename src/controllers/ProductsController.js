@@ -74,15 +74,20 @@ function addProdCommand(prod, callback) {
         })
         i++
     })
-   
+
     database.query("INSERT INTO commande(id_produit,id_client,qte_produit) VALUES ? ", [arrayFinal], function (error, results) {
         if (error) throw error
         callback(results)
     })
 }
 
-const PayOrderedCart = (cart,callback) =>{
-    
+const PayOrderedCart = (cart, callback) => {
+    const { montant, id_client } = cart
+
+    database.query('INSERT INTO payement(Id_client,montant,date_payement) VALUES (?,?,CURDATE())', [id_client, montant], (error, result) => {
+        if(error) throw error
+        callback(result)
+    })
 }
 
 module.exports = {
@@ -90,5 +95,6 @@ module.exports = {
     reduceProduct,
     addProdCommand,
     getAllCategories,
-    getCategorizedProducts
+    getCategorizedProducts,
+    PayOrderedCart
 }
