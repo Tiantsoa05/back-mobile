@@ -1,5 +1,5 @@
 const express = require('express')
-const { getAllProducts, reduceProduct, addProdCommand, getCategorizedProducts } = require("../../controllers/ProductsController");
+const { getAllProducts, reduceProduct, addProdCommand, getCategorizedProducts, PayOrderedCart } = require("../../controllers/ProductsController");
 
 const prodRouter = express.Router();
 
@@ -29,7 +29,10 @@ prodRouter.post('/commande', (req, res) => {
 })
 
 prodRouter.post('/payement', (req, res) => {
-    
+    PayOrderedCart(req.body, (response)=>{
+        let { affectedRows } = response
+        res.status(200).end(JSON.stringify(affectedRows))
+    })
 })
 
 module.exports = prodRouter;
